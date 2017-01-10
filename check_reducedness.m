@@ -65,10 +65,14 @@ min_width = Inf;
 
 % Set up all edges
 e = zeros(0,2);
-for i = 1:size(faces,2);
-	e = [e; faces(:, [i mod(i,size(faces,2))+1])];
+nf = size(faces,1);
+
+for j = 1:size(faces,1);
+	ee = kron(faces(j,not(isnan(faces(j,:)))), [1 1]);
+	ee = [ee(2:end), ee(1)];
+	ee = reshape(ee, 2, [])';
+	e = [e; ee];
 end
-e = e(all(not(isnan(e)),2),:);
 e = sort(e,2);
 e = unique(e,'rows');
 
